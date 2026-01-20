@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<title>AR Eiffel Tower</title>
+
+<script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar.min.js"></script>
+
+<style>
+  body { margin: 0; overflow: hidden; font-family: 'Sarabun', sans-serif; }
+
+  /* กล่องข้อความ */
+  #infoBox {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.85); /* พื้นหลังสีดำโปร่งแสง */
+    color: #fff;
+    padding: 20px;
+    border-radius: 15px;
+    font-size: 16px;
+    line-height: 1.5;
+    width: 80%;
+    max-width: 600px;
+    display: none; /* ซ่อนไว้ก่อน จะแสดงเมื่อเจอ Marker */
+    z-index: 9999;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    border: 1px solid #ffd700; /* ขอบสีทอง */
+  }
+
+  #infoTitle {
+    font-size: 20px;
+    font-weight: bold;
+    color: #ffd700; /* สีทอง */
+    margin-bottom: 10px;
+    border-bottom: 1px solid #555;
+    padding-bottom: 5px;
+  }
+</style>
+
+<script>
+  window.addEventListener("DOMContentLoaded", () => {
+    const marker = document.querySelector("a-marker");
+    const infoBox = document.getElementById("infoBox");
+
+    // เมื่อกล้องส่องเจอ Marker
+    marker.addEventListener("markerFound", () => {
+      infoBox.style.display = "block"; // แสดงข้อความ
+    });
+
+    // เมื่อ Marker หลุดจากกล้อง
+    marker.addEventListener("markerLost", () => {
+      infoBox.style.display = "none"; // ซ่อนข้อความ
+    });
+  });
+</script>
+</head>
+
+<body>
+
+  <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;">
+    
+    <a-marker type="pattern" url="./pattern-ar-marker10.patt">
+      
+      <a-entity 
+        gltf-model="scene.gltf" 
+        scale="0.2 0.2 0.2" 
+        position="0 0 0"
+        rotation="0 0 0">
+      </a-entity>
+
+    </a-marker>
+    
+    <a-entity camera></a-entity>
+  </a-scene>
+
+  <div id="infoBox">
+    <div id="infoTitle">หอไอเฟล (The Eiffel Tower)</div>
+    <div>
+      หอไอเฟล สร้างขึ้นในปี ค.ศ. 1889 ที่กรุงปารีส เพื่อเฉลิมฉลองครบรอบ 100 ปีการปฏิวัติฝรั่งเศส 
+      ออกแบบโดยกุสตาฟ ไอเฟล เดิมถูกวิจารณ์และตั้งใจรื้อถอน แต่ภายหลังใช้ประโยชน์ด้านการสื่อสาร 
+      จึงกลายเป็นสัญลักษณ์สำคัญของประเทศฝรั่งเศส
+    </div>
+  </div>
+
+</body>
+</html>
